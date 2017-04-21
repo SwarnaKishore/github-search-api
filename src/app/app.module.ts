@@ -6,9 +6,12 @@ import {MaterialModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdInputModule} from '@angular/material';
 import 'hammerjs';
-
+import {MdListModule} from '@angular/material';
 import { AppComponent } from './app.component';
 import {SearchService} from './search.service';
+import {MdCardModule} from '@angular/material';
+import {MdButtonModule} from '@angular/material';
+import {MdGridListModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,11 @@ import {SearchService} from './search.service';
     HttpModule,
     MaterialModule,
     BrowserAnimationsModule,
-    MdInputModule
+    MdInputModule,
+    MdListModule,
+    MdCardModule,
+    MdButtonModule,
+    MdGridListModule
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]

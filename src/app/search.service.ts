@@ -31,7 +31,7 @@ export class SearchService{
     private extractData(res: Response) {
     let body = res.json();
 
-     for(this.i = 0; this.i < body.items.length; this.i++)
+   /*  for(this.i = 0; this.i < body.items.length; this.i++)
             {
                 
                 this.repository.forks_count = body.items[this.i].forks_count;
@@ -45,7 +45,7 @@ export class SearchService{
 
                console.log(this.repositories_for_view.push(this.repository));
                
-            }
+            }*/
     console.log(body.items[0].stargazers_count);
     return body.items;
   }

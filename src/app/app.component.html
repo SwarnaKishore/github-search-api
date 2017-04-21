@@ -1,6 +1,68 @@
 <md-toolbar>Github Search API</md-toolbar>
 
-<md-input-container class="width">
+<md-input-container class="container">
       <input mdInput #input (keyup.enter)="search(input.value)" placeholder="Search Repositories">
 </md-input-container>
+
+
+<md-list>
+  <md-list-item *ngFor="let repository of repositories">
+
+        <p><a target="_blank" [href]="repository.html_url"> {{repository.name}}</a> </p>
+        <p>Language:{{repository.language}}</p>
+        <p>stars{{repository.stargazers_count}}</p>
+        <p>forks count {{repository.forks_count}}</p>
+        <p> updated at {{repository.updated_at | date}}</p>
+       <a [href]="repository.owner.html_url" target="_blank"> <img src="{{repository.owner.avatar_url}}"></a>
+  </md-list-item>
+</md-list>
+
+<!--
+<md-list>
+  <md-list-item *ngFor="let repository of repositories">
+      <md-card>
+          <md-card-header>
+                <a [href]="repository.owner.html_url" target="_blank">
+                  <img class="owner-avatar-image" src="{{repository.owner.avatar_url}}"></a>
+          <a target="_blank" [href]="repository.html_url"> <md-card-title>{{repository.name}}</md-card-title></a>
+          </md-card-header>
+      
+          <md-card-actions>
+            <button md-button>LIKE</button>
+            <button md-button>SHARE</button>
+          </md-card-actions>
+    </md-card>
+ </md-list-item>
+</md-list>-->
+
+
+
+<div class="container">
+<md-grid-list cols="4" rowHeight="40px" *ngFor="let repository of repositories" class="card">
+            <md-grid-tile colspan="2" rowspan="1">
+              <a target="_blank" [href]="repository.html_url"> <md-card-title>{{repository.name}}</md-card-title></a>
+            </md-grid-tile>
+
+            <md-grid-tile colspan="1" rowspan="1">
+                {{repository.language}}
+              </md-grid-tile>
+
+           <md-grid-tile colspan="1" rowspan="2">
+              <a [href]="repository.owner.html_url" target="_blank">
+              <img class="owner-avatar-image" src="{{repository.owner.avatar_url}}"></a>
+            </md-grid-tile>
+
+            <md-grid-tile colspan="1" rowspan="1">
+              stars{{repository.stargazers_count}}
+            </md-grid-tile>
+
+            <md-grid-tile colspan="1" rowspan="1">
+              forks count {{repository.forks_count}}
+            </md-grid-tile>
+
+            <md-grid-tile colspan="1" rowspan="1">
+              updated at {{repository.updated_at | date}}
+            </md-grid-tile>  
+</md-grid-list>
+</div>
 
