@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {MdInputModule} from '@angular/material';
 import {SearchService} from './search.service';
+import './rxjs-extensions';
+import {Repository} from './repositoryObject'
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,20 @@ import {SearchService} from './search.service';
 })
 export class AppComponent {
   search_input = '';
-  repositories ={};
+  repositories = [];
+  i:number;
+  repository_item:object;
+  repository:Repository;
+  repositories_for_view: Repository[];
   constructor(private search_serive : SearchService){}
 
   search(value: string) 
   { 
     this.search_input = value;
     this.search_serive.getRepositoryInfo(this.search_input)
-    .then(repositories => this.repositories = repositories,
-    error => console.log(error));
+    .subscribe(repositories => this.repositories = repositories);
+
     console.log(this.repositories);
-  }
+
+   }
 }
