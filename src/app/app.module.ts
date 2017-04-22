@@ -2,16 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {MaterialModule} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdInputModule} from '@angular/material';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
-import {MdListModule} from '@angular/material';
 import { AppComponent } from './app.component';
 import {SearchService} from './search.service';
-import {MdCardModule} from '@angular/material';
-import {MdButtonModule} from '@angular/material';
-import {MdGridListModule} from '@angular/material';
+import {MaterialModule, MdInputModule, MdCardModule, MdButtonModule, MdChipsModule, MdGridListModule, MdListModule, MdTooltipModule} from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +23,9 @@ import {MdGridListModule} from '@angular/material';
     MdListModule,
     MdCardModule,
     MdButtonModule,
-    MdGridListModule
+    MdGridListModule,
+    MdChipsModule,
+    MdTooltipModule
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]
