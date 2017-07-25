@@ -6,26 +6,19 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import 'hammerjs';
 import { AppComponent } from './app.component';
 import {SearchService} from './search.service';
-import {MaterialModule, MdInputModule, MdCardModule, MdButtonModule, MdChipsModule, MdGridListModule, MdListModule, MdTooltipModule} from '@angular/material';
+import { CapitalizePipe } from './capitalize.pipe';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
-    BrowserAnimationsModule,
-    MdInputModule,
-    MdListModule,
-    MdCardModule,
-    MdButtonModule,
-    MdGridListModule,
-    MdChipsModule,
-    MdTooltipModule
+    BrowserAnimationsModule
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]
