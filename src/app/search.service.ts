@@ -16,8 +16,8 @@ export class SearchService{
      getRepositoryInfo(search_input:string) : Observable<any>{
           
         if(search_input == null)
-          this.url = 'https://api.github.com/repositories?sort=stars';
-        else if(search_input)
+            search_input = "angular";
+        if(search_input)
              {
                 this.url = this.baseSearchURL + '&q='+ search_input;
         	   }

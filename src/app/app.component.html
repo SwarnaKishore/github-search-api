@@ -6,13 +6,13 @@
     </div>
   </nav>
   
-
+<p style="text-align: center; font-size: 30px; margin-top: 3%">View top starred repositories for search criteria</p>
 <div class="container">
   <div class="row">
     <form class="col s12 m12">
       <div class="row">
         <div class="input-field col s6 m6 offset-s3 offset-m3" style="margin-top: 5%; margin-bottom: 5%;">
-          <input #input id="last_name" type="text" (keyup.enter)="search(input.value)" class="validate">
+          <input placeholder = "angular" #input id="last_name" type="text" (keyup.enter)="search(input.value)" class="validate">
           <label for="last_name">Search for repositories</label>
         </div>
       </div>
@@ -28,15 +28,29 @@
       <div class="row" style="position: relative; top: 20px;">
         
 
-     <div class="col s5 m5">
+     <div class="col s4 m4">
       <div class="row center" style="margin-bottom: 0">
         <div class="col s12 m12">
-          <a target="_blank" [href]="repository.html_url"  style="font-size:24px;font-weight: bold; margin-right: 20px;">{{repository.name | capitalize}}</a><div *ngIf = "repository.language" class="chip">{{repository.language}}</div>
+          <a target="_blank" [href]="repository.html_url"  style="font-size:24px;font-weight: bold; margin-right: 20px;">{{repository.name | capitalize}}</a>
         </div>
       </div>
       <div class="row center">
         <div class="col s12 m12">
-           <i class="material-icons">update</i> &nbsp; {{repository.updated_at | date}}
+           <div *ngIf = "repository.language" class="chip">{{repository.language}}</div>
+        </div>
+      </div>
+    </div>
+
+     <div class="col s2 m2" style="position: relative; top: 5px;">
+      <div class="row center" style="margin-bottom: 0">
+        <div class="col s12 m12">
+          <i class="material-icons" style="font-size: 26px;">update</i>
+        </div>
+      </div>
+      <div class="row center">
+        <div class="col s12 m12">
+          {{repository.updated_at | date}}
+ 
         </div>
       </div>
     </div>
