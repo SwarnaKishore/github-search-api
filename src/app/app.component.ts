@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {SearchService} from './search.service';
 import './rxjs-extensions';
 
@@ -7,11 +7,19 @@ import './rxjs-extensions';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   search_input = '';
   repositories = [];
  
   constructor(private search_serive : SearchService){}
+
+  public ngOnInit()
+  {
+    this.search_input = null;    
+      this.search_serive.getRepositoryInfo(this.search_input)
+    .subscribe(repositories => this.repositories = repositories);
+    console.log(this.repositories)
+  }
 
   search(value: string) 
   { 
@@ -19,7 +27,6 @@ export class AppComponent {
     this.search_serive.getRepositoryInfo(this.search_input)
     .subscribe(repositories => this.repositories = repositories);
 
-    console.log(this.repositories);
 
    }
 }

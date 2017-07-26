@@ -5,40 +5,7 @@
       <a href="#" class="brand-logo center">Github Search API</a>
     </div>
   </nav>
-   <!--    <input #input (keyup.enter)="search(input.value)" placeholder="Search Repositories">
-
-<div class="container">
-<md-grid-list cols="4" rowHeight="40px" *ngFor="let repository of repositories" class="card">
-            <md-grid-tile colspan="2" rowspan="1">
-              <a target="_blank" [href]="repository.html_url" style="font-size:16px;font-weight: bold"> <md-card-title>{{repository.name}}</md-card-title></a>
-            </md-grid-tile>
-
-            <md-grid-tile colspan="1" rowspan="1">
-              <span class="chip">{{repository.language}}</span>
-              </md-grid-tile>
-
-           <md-grid-tile colspan="1" rowspan="2">
-              <a [href]="repository.owner.html_url" target="_blank">
-              <img class="owner-avatar-image" src="{{repository.owner.avatar_url}}"></a>
-            </md-grid-tile>
-
-            <md-grid-tile colspan="1" rowspan="1">
-              <i class="material-icons">star</i> &nbsp; {{repository.stargazers_count}}
-            </md-grid-tile>
-
-            <md-grid-tile colspan="1" rowspan="1">
-             <i class="fa fa-code-fork" aria-hidden="true"></i> &nbsp; {{repository.forks_count}}
-            </md-grid-tile>
-
-            <md-grid-tile colspan="1" rowspan="1" class="font">
-              <i class="material-icons">update</i> &nbsp; {{repository.updated_at | date}}
-            </md-grid-tile>  
-</md-grid-list>
-</div>
- -->
-
-
-
+  
 
 <div class="container">
   <div class="row">
@@ -52,18 +19,19 @@
     </form>
   </div>        
 </div>
+<!-- col s12 m12 l6 onHover-->
+<div class="containerWrap">
 
-<div class="container">
   <div class="row" *ngFor="let repository of repositories">
 
-    <div class="col s7 m7 onHover">
+    <div class="col s12 m12 l8 onHover">
       <div class="row" style="position: relative; top: 20px;">
         
 
      <div class="col s5 m5">
       <div class="row center" style="margin-bottom: 0">
         <div class="col s12 m12">
-          <a target="_blank" [href]="repository.html_url"  style="font-size:26px;font-weight: bold; margin-right: 20px;">{{repository.name | capitalize}}</a><div *ngIf = "repository.language" class="chip">{{repository.language}}</div>
+          <a target="_blank" [href]="repository.html_url"  style="font-size:24px;font-weight: bold; margin-right: 20px;">{{repository.name | capitalize}}</a><div *ngIf = "repository.language" class="chip">{{repository.language}}</div>
         </div>
       </div>
       <div class="row center">
@@ -73,20 +41,20 @@
       </div>
     </div>
 
-    <div class="col s2 m2" style="position: relative; top: 10px; font-size: 20px;">
+    <div class="col s2 m2" style="position: relative; top: 5px;">
       <div class="row center" style="margin-bottom: 0">
         <div class="col s12 m12">
-          <i class="material-icons">star</i>
+          <i class="material-icons" style="font-size: 26px;">star</i>
         </div>
       </div>
-      <div class="row center">
+      <div class="row center" style="font-size: 20px;">
         <div class="col s12 m12">
            {{repository.stargazers_count}}
         </div>
       </div>
     </div>
 
-     <div class="col s2 m2" style="position: relative; bottom: 3px;">
+     <div class="col s2 m2" style="position: relative; bottom: 1px;">
       <div class="row center" style="margin-bottom: 0; font-size: 28px;">
         <div class="col s12 m12">
           <i class="fa fa-code-fork" aria-hidden="true"></i>

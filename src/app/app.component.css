@@ -10,6 +10,59 @@ nav a{color: white;}
     background-color: #F0F0F0;
     border-radius: 6px;
 }
+.containerWrap{
+    margin-left: 29%;
+}
+@media only screen and (max-width: 1500px) {
+  .containerWrap{
+    margin-left: 20%;
+}
+.onHover{
+        width: 80%
+    }
+  }
+
+.onHover
+{
+    width: 60%;
+}
+  
+  @media only screen and (max-width: 1300px) {
+   .containerWrap{
+    margin-left: 15%;
+}
+.onHover{
+        width: 70%
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+  .containerWrap{
+    margin-left:18;
+}
+    .onHover{
+        width: 100%
+    }
+  }
+
+
+  @media only screen and (max-width: 1000px) {
+ .containerWrap{
+    margin-left: 0%;
+}
+.onHover{
+        width: 100%
+    }
+  }
+
+    @media only screen and (max-width: 900px) {
+  .containerWrap{
+    margin-left: 0;
+}
+.onHover{
+        width: 100%
+    }
+  }
 /* 
 .input-styles{
     width : 60%;

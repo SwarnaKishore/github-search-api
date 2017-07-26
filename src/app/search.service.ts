@@ -15,10 +15,12 @@ export class SearchService{
 
      getRepositoryInfo(search_input:string) : Observable<any>{
           
-        if(search_input !== "")
+        if(search_input == null)
+          this.url = 'https://api.github.com/repositories?sort=stars';
+        else if(search_input)
              {
                 this.url = this.baseSearchURL + '&q='+ search_input;
-        	 }
+        	   }
               return this.http.get(this.url)
                .map(this.extractData)
                .catch(error => Observable.throw(error.statusText));
