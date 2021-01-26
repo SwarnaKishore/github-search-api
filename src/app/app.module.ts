@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 import { AppComponent } from './app.component';
@@ -17,8 +17,8 @@ import { CapitalizePipe } from './capitalize.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
+    HttpModule,
+    BrowserAnimationsModule
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]
