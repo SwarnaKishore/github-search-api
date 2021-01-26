@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   {
     this.search_input = null;    
       this.search_serive.getRepositoryInfo(this.search_input)
-    .subscribe(repositories => this.repositories = repositories);
+    .subscribe(repositories => this.repositories = repositories.items);
     console.log(this.repositories)
   }
 
