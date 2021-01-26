@@ -11,12 +11,13 @@ nav a{color: white;}
     border-radius: 6px;
 }
 .containerWrap{
-    margin-left: 29%;
+    width: 90%;
+    margin: 0 auto;
 }
 @media only screen and (max-width: 1500px) {
-  .containerWrap{
+  /* .containerWrap{
     margin-left: 20%;
-}
+} */
 .onHover{
         width: 80%
     }
@@ -28,18 +29,18 @@ nav a{color: white;}
 }
   
   @media only screen and (max-width: 1300px) {
-   .containerWrap{
+   /* .containerWrap{
     margin-left: 15%;
-}
+} */
 .onHover{
         width: 70%
     }
   }
 
   @media only screen and (max-width: 1200px) {
-  .containerWrap{
+  /* .containerWrap{
     margin-left:18;
-}
+} */
     .onHover{
         width: 100%
     }
@@ -47,18 +48,18 @@ nav a{color: white;}
 
 
   @media only screen and (max-width: 1000px) {
- .containerWrap{
+ /* .containerWrap{
     margin-left: 0%;
-}
+} */
 .onHover{
         width: 100%
     }
   }
 
     @media only screen and (max-width: 900px) {
-  .containerWrap{
+  /* .containerWrap{
     margin-left: 0;
-}
+} */
 .onHover{
         width: 100%
     }
