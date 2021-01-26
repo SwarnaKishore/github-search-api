@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable} from 'rxjs/Observable';
 import './rxjs-extensions';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 
 export class SearchService{
-     constructor(private http: Http) { }
+     constructor(private http: HttpClient) { }
      private baseSearchURL : string = 'https://api.github.com/search/repositories?sort=stars&order=desc&per_page=20';
      url:string;
 
@@ -21,15 +22,7 @@ export class SearchService{
              {
                 this.url = this.baseSearchURL + '&q='+ search_input;
         	   }
-              return this.http.get(this.url)
-               .map(this.extractData)
-               .catch(error => Observable.throw(error.statusText));
+              return this.http.get(this.url);
                  
      }
-    
-    private extractData(res: Response) {
-    let body = res.json();
-    return body.items;
-  }
-
 }
