@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Star Catalog — GitHub repository search</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Search GitHub and browse the most-starred repositories for any topic.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>★</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1321;
+    --panel: #131b30;
+    --panel-hover: #182241;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #e9edf5;
+    --text-dim: #8d96ad;
+    --text-faint: #5c6480;
+    --gold: #f2b84b;
+    --gold-dim: #7a5f2a;
+    --coral: #e2725b;
+    --coral-bg: rgba(226,114,91,0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  body {
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.35), transparent),
+      radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1.5px 1.5px at 60% 10%, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.25), transparent),
+      radial-gradient(1px 1px at 45% 60%, rgba(255,255,255,0.15), transparent),
+      radial-gradient(1.5px 1.5px at 90% 70%, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.2), transparent);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--gold-dim); color: var(--text); }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.75rem;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.9rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5vw, 3rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.7rem;
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin: 0;
+    max-width: 40ch;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  form.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px 4px 4px 16px;
+    margin-top: 2rem;
+    transition: border-color 0.15s ease;
+  }
+
+  form.search:focus-within {
+    border-color: var(--gold-dim);
+  }
+
+  form.search svg { flex: none; color: var(--text-faint); }
+
+  form.search input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 10px 0;
+  }
+
+  form.search input::placeholder { color: var(--text-faint); }
+
+  form.search button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    border: none;
+    border-radius: 7px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+
+  form.search button:hover { filter: brightness(1.08); }
+  form.search button:active { filter: brightness(0.95); }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 2.5rem 0 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    letter-spacing: 0.02em;
+  }
+
+  .catalog { display: flex; flex-direction: column; gap: 10px; }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .entry:hover {
+    background: var(--panel-hover);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+  }
+
+  .rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: right;
+  }
+
+  .main-col { min-width: 0; }
+
+  .name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .repo-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .repo-name:hover { color: var(--gold); }
+
+  .lang-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--coral);
+    background: var(--coral-bg);
+    padding: 2px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  .sub-row {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  .owner-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .owner-link img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .owner-link:hover { color: var(--text); }
+
+  .updated {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  .stats-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .stat svg { flex: none; }
+  .stat.stars svg { color: var(--gold); }
+  .stat.forks svg { color: var(--text-faint); }
+
+  .magnitude {
+    width: 54px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+
+  .magnitude span {
+    display: block;
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  .state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-faint);
+    font-size: 14px;
+  }
+
+  .state .big { font-family: 'Fraunces', serif; font-size: 20px; color: var(--text-dim); display: block; margin-bottom: 0.4rem; }
+
+  .skeleton { position: relative; overflow: hidden; }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 3.5rem;
+    color: var(--text-faint);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  footer a:hover { color: var(--text-dim); }
+
+  @media (max-width: 560px) {
+    .entry { grid-template-columns: 24px 1fr; }
+    .stats-col { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 16px; margin-top: 4px; padding-left: 34px; }
+    .magnitude { display: none; }
+    .rank { font-size: 11px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry, form.search button { transition: none; }
+    .skeleton::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Star catalog</p>
+    <h1>Chart the most-starred repos</h1>
+    <p>Search any topic or language and see GitHub's brightest projects, ranked by stargazers.</p>
+
+    <form class="search" id="search-form">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input id="search-input" type="text" placeholder="angular, machine learning, rust..." autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <div class="meta-row">
+    <span id="meta-left">&nbsp;</span>
+    <span id="meta-right">&nbsp;</span>
+  </div>
+
+  <div class="catalog" id="catalog"></div>
+
+</div>
+
+<script>
+(function(){
+  const form = document.getElementById('search-form');
+  const input = document.getElementById('search-input');
+  const catalog = document.getElementById('catalog');
+  const metaLeft = document.getElementById('meta-left');
+  const metaRight = document.getElementById('meta-right');
+
+  const starIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>';
+  const forkIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="12" cy="18" r="2.5"></circle><path d="M6 8.5v2a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-2M12 13.5v2"></path></svg>';
+
+  function formatCount(n){
+    if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return String(n);
+  }
+
+  function timeAgo(dateStr){
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const days = Math.floor(diff / 86400000);
+    if (days < 1) return 'today';
+    if (days < 30) return days + 'd ago';
+    const months = Math.floor(days / 30);
+    if (months < 12) return months + 'mo ago';
+    return Math.floor(months / 12) + 'y ago';
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
+  function renderSkeleton(){
+    catalog.innerHTML = Array.from({length: 6}).map(() => (
+      '<div class="entry skeleton" style="height:64px;"></div>'
+    )).join('');
+  }
+
+  function renderError(message){
+    catalog.innerHTML = '<div class="state"><span class="big">Nothing to chart</span>' + escapeHtml(message) + '</div>';
+  }
+
+  function renderEmpty(query){
+    catalog.innerHTML = '<div class="state"><span class="big">No matches</span>No repositories found for "' + escapeHtml(query) + '".</div>';
+  }
+
+  function renderResults(items){
+    const maxStars = Math.max(...items.map(r => r.stargazers_count), 1);
+
+    catalog.innerHTML = items.map((repo, i) => {
+      const pct = Math.max(6, Math.round((repo.stargazers_count / maxStars) * 100));
+      const lang = repo.language
+        ? '<span class="lang-chip">' + escapeHtml(repo.language) + '</span>'
+        : '';
+
+      return (
+        '<div class="entry">' +
+          '<div class="rank">' + String(i + 1).padStart(2, '0') + '</div>' +
+          '<div class="main-col">' +
+            '<div class="name-row">' +
+              '<a class="repo-name" href="' + repo.html_url + '" target="_blank" rel="noopener">' + escapeHtml(repo.name) + '</a>' +
+              lang +
+            '</div>' +
+            '<div class="sub-row">' +
+              '<a class="owner-link" href="' + repo.owner.html_url + '" target="_blank" rel="noopener">' +
+                '<img src="' + repo.owner.avatar_url + '&s=36" alt="" loading="lazy">' +
+                escapeHtml(repo.owner.login) +
+              '</a>' +
+              '<span class="updated">updated ' + timeAgo(repo.updated_at) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="stats-col">' +
+            '<div class="stat stars">' + starIcon + formatCount(repo.stargazers_count) + '</div>' +
+            '<div class="stat forks">' + forkIcon + formatCount(repo.forks_count) + '</div>' +
+            '<div class="magnitude"><span style="width:' + pct + '%"></span></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  let controller = null;
+
+  async function search(query){
+    const q = query && query.trim() ? query.trim() : 'stars:>10000';
+    metaLeft.textContent = 'query: ' + q;
+    metaRight.textContent = 'sorted by stars';
+    renderSkeleton();
+
+    if (controller) controller.abort();
+    controller = new AbortController();
+
+    const url = 'https://api.github.com/search/repositories?sort=stars&order=desc&per_page=20&q=' + encodeURIComponent(q);
+
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      if (res.status === 403) {
+        renderError('GitHub\'s public API rate limit was hit. Wait a minute and try again.');
+        metaRight.textContent = 'rate limited';
+        return;
+      }
+      if (!res.ok) {
+        renderError('GitHub returned an error (' + res.status + '). Try a different search.');
+        return;
+      }
+      const data = await res.json();
+      const items = data.items || [];
+      if (items.length === 0) {
+        renderEmpty(q);
+        metaRight.textContent = '0 results';
+        return;
+      }
+      renderResults(items);
+      metaRight.textContent = formatCount(data.total_count || items.length) + ' total matches';
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      renderError('Could not reach GitHub. Check your connection and try again.');
+    }
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    search(input.value);
+  });
+
+  search('');
+})();
+</script>
+
+</body>
+</html>

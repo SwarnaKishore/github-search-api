@@ -1,28 +1,24 @@
-# GithubSearchApi
+# Star catalog
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+Search GitHub and browse the most-starred repositories for any topic. Built as a single static HTML file — no build step, no backend, just a page that calls the public [GitHub Search API](https://docs.github.com/en/rest/search) directly from the browser.
 
-## Development server
+**Live app:** https://swarnakishore.github.io/github-search-api/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Running locally
 
-## Code scaffolding
+No install needed. Just open `docs/index.html` in a browser, or serve it:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+```bash
+cd docs
+python3 -m http.server 8000
+```
 
-## Build
+Then visit `http://localhost:8000`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Deployment
 
-## Running unit tests
+This repo deploys via GitHub Pages from the `docs/` folder on `master`. Any push to `master` that touches `docs/index.html` goes live automatically — no CI step required.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Notes
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+GitHub's public search API is rate-limited to 10 requests/minute for unauthenticated requests. If you hit the limit, wait a minute and search again.
